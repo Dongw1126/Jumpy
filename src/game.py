@@ -4,9 +4,8 @@ from pygame.locals import *
 frame = 0
 
 
-class Player(pygame.sprite.Sprite):
+class Player:
     def __init__(self, path, position):
-        pygame.sprite.Sprite.__init__(self)
         self.user_position = [position[0], position[1]]
         self.user_image = []
         self.loadImage(path)
