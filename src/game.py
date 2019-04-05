@@ -46,15 +46,17 @@ class Game:
         player = Player("res/Char/", rect.center)
 
         while True:
-            time = self.clock.tick(60)
-            for event in pygame.event.get():
-                if event.type == QUIT:
-                    pygame.quit()
+            time = self.clock.tick(15)
+
             self.screen.fill((0, 0, 0))
+
             player.update(self.screen)
             pygame.display.flip()
 
-        pygame.quit()
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    exit(0)
 
 
 if __name__ == "__main__":
