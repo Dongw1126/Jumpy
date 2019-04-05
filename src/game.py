@@ -1,4 +1,5 @@
 import pygame
+from const import *
 from pygame.locals import *
 frame = 0
 
@@ -24,7 +25,7 @@ class Player(pygame.sprite.Sprite):
 
         frame += 1
         point = self.user_position
-        screen.blit(self.user_image[0][frame % 4], self.user_position)
+        screen.blit(self.user_image[IDLE][frame % 4], self.user_position)
 
     def loadImage(self, path):
         idle_sprite = ['idle-2-0' + str(i) + '.png' for i in range(4)]
