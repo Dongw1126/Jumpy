@@ -39,7 +39,7 @@ class Game:
         self.all_sprites.add(self.player)
 
         for plat in PLATFORM_LIST:
-            p = Platform(*plat)
+            p = Platform(self, *plat)
             self.all_sprites.add(p)
             self.platforms.add(p)
 
@@ -66,9 +66,9 @@ class Game:
 
         # If player reached top 1/4 of screen
         if self.player.rect.top <= HEIGHT/4:
-            self.player.pos.y += abs(self.player.vel.y)
+            self.player.pos.y += max(abs(self.player.vel.y), 5)
             for plat in self.platforms:
-                plat.rect.y += abs(self.player.vel.y)
+                plat.rect.y += max(abs(self.player.vel.y), 5)
                 if plat.rect.top >= HEIGHT:
                     plat.kill()
                     self.score += 10
@@ -85,9 +85,8 @@ class Game:
         # Spawn new platforms
         while len(self.platforms) < 6:
             width = random.randrange(50, 100)
-            p = Platform(random.randrange(0, WIDTH - width),
-                         random.randrange(-75, -30),
-                         width, 20)
+            p = Platform(self, random.randrange(0, WIDTH - width),
+                         random.randrange(-75, -30))
             self.platforms.add(p)
             self.all_sprites.add(p)
 
@@ -107,6 +106,7 @@ class Game:
         # Game Loop - Draw
         self.screen.fill(BGCOLOR)
         self.all_sprites.draw(self.screen)
+        self.screen.blit(self.player.image, self.player.rect)
         self.draw_text(str(self.score), 22, WHITE, WIDTH/2, 15)
 
         # *after* drawing everything, flip the display
