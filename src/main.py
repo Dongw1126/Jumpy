@@ -29,6 +29,14 @@ class Game:
         # load spritesheet image
         self.spritesheet = Spritesheet(path.join(img_dir, SPRITESHEET))
 
+        # load sounds
+        ''' warning : mp3 support is limited on some systems
+                      and it can crash program
+                      so they suggest you use OGG file '''
+        
+        self.snd_dir = path.join(self.dir, 'snd')
+        self.jump_sound = pg.mixer.Sound(path.join(self.snd_dir, 'Jump.wav'))
+
     def new(self):
         # start a new game
         self.score = 0
@@ -43,16 +51,21 @@ class Game:
             self.all_sprites.add(p)
             self.platforms.add(p)
 
+        pg.mixer.music.load(path.join(self.snd_dir,'happytune.mp3'))
         self.run()
 
     def run(self):
         # Game Loop
+        pg.mixer.music.play(-1)
         self.playing = True
+        
         while self.playing:
             self.clock.tick(FPS)
             self.events()
             self.update()
             self.draw()
+
+        pg.mixer.music.fadeout(500)
 
     def update(self):
         # Game Loop - Update
@@ -104,7 +117,7 @@ class Game:
                 if self.playing:
                     self.playing = False
                 self.running = False
-                
+
             if event.type == pg.KEYDOWN:
                 if event.key == pg.K_SPACE:
                     self.player.jump()
